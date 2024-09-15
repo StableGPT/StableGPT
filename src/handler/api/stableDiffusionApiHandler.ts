@@ -143,14 +143,14 @@ class StableDiffusionApiHandler {
                 requestBody.sampler_name = samplerName;
 
                 /* get model name to use */
-                // const models = await this.getModels() || [];
-                // if (models.length === 0) {
-                //     reject("StableDiffusionApiHandler::postTextToImage - Error: Model doesn't exist in Stable Diffusion");
-                // }
-                // const modelName = models[0].title.replace(/\s\[.*\]*/g, "");
-                // console.log("StableDiffusionApiHandler::postTextToImage - modelName:'" + modelName + "'");
-                // requestBody.hr_checkpoint_name = modelName;
-                // requestBody.refiner_checkpoint = modelName;
+                const models = await this.getModels() || [];
+                if (models.length === 0) {
+                    reject("StableDiffusionApiHandler::postTextToImage - Error: Model doesn't exist in Stable Diffusion");
+                }
+                const modelName = models[0].title.replace(/\s\[.*\]*/g, "");
+                console.log("StableDiffusionApiHandler::postTextToImage - modelName:'" + modelName + "'");
+                requestBody.hr_checkpoint_name = modelName;
+                requestBody.refiner_checkpoint = modelName;
 
                 fetch(this.baseUrl + "/sdapi/v1/txt2img", {
                     method: 'POST',

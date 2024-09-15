@@ -1,27 +1,26 @@
-import ApiKeyInputForm from './form/ApiKeyInputForm';
-import ToggleLocalesButton from './button/ToggleLocalesButton';
+import { useRecoilValue } from 'recoil';
+import { getGenerateLoadingState } from '../states/generateLoadingState';
+
 import GenerateImageViewer from './viewer/GenerateImageViewer';
 import ImageHistoryViewer from './viewer/ImageHistoryViewer';
-import PromptViewer from './viewer/PromptViewer';
-import SettingViewer from './viewer/SettingViewer';
-import GenerateSubmitButton from './button/GenerateSubmitButton';
+import PromptModuleViewer from './viewer/PromptModuleViewer';
+
+import LoadingSpinner from './LoadingSpinner';
 
 function MainView () {
+  const bIsGeneratedState = useRecoilValue(getGenerateLoadingState);
+
   return (
-    <div className="w-main h-calc(-20) min-w-75vw mt-1 ml-5 bg-white">
-      <div className="flex items-center w-640 h-20 ml-auto">
-        <ApiKeyInputForm />
-        <ToggleLocalesButton />
-      </div>
-      <div className="text-centerw-full h-700">
-        <GenerateImageViewer />
-      </div>
+    <div className="w-50% h-calc(-20) px-15px bg-white dark:bg-darkMode">
+      <GenerateImageViewer />
       <ImageHistoryViewer />
-      <div className="flex w-full h-auto min-w-1024 mt-1">
-        <PromptViewer />
-        <SettingViewer />
-        <GenerateSubmitButton />
-      </div>
+      <PromptModuleViewer />
+
+      {(bIsGeneratedState === true)?
+      <>
+        <div className="fixed justify-center content-center top-0 left-0 w-50% h-full bg-modal z-20" />
+        <LoadingSpinner>{''}</LoadingSpinner>
+      </>:""}
     </div>
   );
 }
